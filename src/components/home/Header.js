@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { Typewriter } from "react-simple-typewriter";
 
 function Header() {
@@ -8,20 +9,14 @@ function Header() {
 				<div className="mx-auto max-w-3xl pt-20 pb-32 sm:pt-48 sm:pb-40">
 					<div>
 						<div className="hidden sm:mb-8 sm:flex sm:justify-center">
-							<div className="relative overflow-hidden rounded-full py-1.5 px-4 text-sm leading-6 ring-1 ring-gray-900/10 hover:ring-gray-900/20">
-								<span className="text-gray-600">
-									Announcing our next round of funding.{" "}
-									<a href="#" className="font-semibold text-indigo-600">
-										<span className="absolute inset-0" aria-hidden="true" />
-										Read more <span aria-hidden="true">&rarr;</span>
-									</a>
-								</span>
-							</div>
+							
 						</div>
 						<div>
 							<h1 className="text-4xl font-semibold tracking-tight pb-16  sm:text-7xl">
 								Agency for <span> </span>
+								<div className="inline-flex" style = {{color: '#ff561e', fontWeight: 'bold'}}>
 								<Typewriter
+								
 									words={["Dreamers", "Creators", "You!"]}
 									loop={0}
 									cursor
@@ -32,11 +27,26 @@ function Header() {
 									// onLoopDone={handleDone}
 									// onType={handleType}
 								/>
+								</div>
 							</h1>
-							<p className="mt-6 text-lg leading-8 text-gray-600 sm:text-center">
-								Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet
-								fugiat veniam occaecat fugiat aliqua.
-							</p>
+							<ul className="flex gap-8 justify-center py-12">
+								<li className="inline-flex border-b-2 border-transparent hover:border-orange-button duration-300 ease-in-out">
+									<Link to="/servicios/algoAqui" className="mt-6 text-lg font-medium text-gray-700 leading-8 text-gray-600 sm:text-center">Item 1</Link>
+								</li> 
+								<li className="inline-flex border-b-2 border-transparent hover:border-orange-button duration-300 ease-in-out">
+									<Link to="/servicios/algoAqui" className="mt-6 text-lg font-medium text-gray-700 leading-8 text-gray-600 sm:text-center">Item 2</Link>
+								</li>
+								<li className="inline-flex border-b-2 border-transparent hover:border-orange-button duration-300 ease-in-out">
+									<Link to="/servicios/algoAqui" className="mt-6 text-lg font-medium text-gray-700 leading-8 text-gray-600 sm:text-center">Item 1</Link>
+								</li> 
+								<li className="inline-flex border-b-2 border-transparent hover:border-orange-button duration-300 ease-in-out">
+									<Link to="/servicios/algoAqui" className="mt-6 text-lg font-medium text-gray-700 leading-8 text-gray-600 sm:text-center">Item 1</Link>
+								</li> 
+								<li className="inline-flex border-b-2 border-transparent hover:border-orange-button duration-300 ease-in-out">
+									<Link to="/servicios/algoAqui" className="mt-6 text-lg font-medium text-gray-700 leading-8 text-gray-600 sm:text-center">Item 1</Link>
+								</li> 
+							</ul>
+							
 							<div className="mt-8 flex gap-x-4 sm:justify-center">
 								<a
 									href="#"
