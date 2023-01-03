@@ -10,6 +10,7 @@ import Blog from 'containers/pages/Blog';
 import Contact from 'containers/pages/Contact';
 
 import { AnimatePresence } from 'framer-motion'
+import Category from 'containers/pages/Category';
 
 function AnimatedRoutes(){
 
@@ -28,6 +29,7 @@ function AnimatedRoutes(){
                     <Route path="/nosotros" element={<About />} />
                     <Route path="/carreras" element={<Careers />} />
                     <Route path="/blog" element={<Blog />} />
+                    <Route path="/category/:slug" element={<Category />} />
                     <Route path="/contacto" element={<Contact />} />
                 </Routes>
         </AnimatePresence>

@@ -6,15 +6,15 @@ from rest_framework import permissions
 
 from .models import Post, ViewCount
 from apps.category.models import Category
-
+from django.db.models.query_utils import Q
 from .serializers import PostSerializer, PostListSerializer
 from .pagination import SmallSetPagination, MediumSetPagination, LargeSetPagination
 class BlogListView(APIView):
     permission_classes = (permissions.AllowAny,)
     def get(self, request, format=None):
-        if Post.objects.all().exists():
+        if Post.postobjects.all().exists():
 
-            posts = Post.objects.all()
+            posts = Post.postobjects.all()
 
             paginator = SmallSetPagination()
             results = paginator.paginate_queryset(posts, request)
@@ -28,12 +28,12 @@ class BlogListView(APIView):
 class ListPostsByCategoryView(APIView):
     permission_classes = (permissions.AllowAny,)
     def get(self, request, format=None):
-        if Post.objects.all().exists():
+        if Post.postobjects.all().exists():
 
             slug = request.query_params.get('slug')
             category = Category.objects.get(slug=slug)
             
-            posts = Post.objects.order_by('-published').all()
+            posts = Post.postobjects.order_by('-published').all()
 
         # # Si la categoría tiene un padre, filtrar sólo por esta categoría y no por el padre también
         # if category.parent:
@@ -68,11 +68,11 @@ class ListPostsByCategoryView(APIView):
 
 
 class PostDetailtView(APIView):
-
+    permission_classes = (permissions.AllowAny,)
     def get(self, request, slug, format=None):
         # Utilizamos filter para que devuelva una lista
-        if Post.objects.filter(slug=slug):
-            post = Post.objects.get(slug=slug)
+        if Post.postobjects.filter(slug=slug).exists():
+            post = Post.postobjects.get(slug=slug)
             serializer = PostSerializer(post)
             address = request.META.get('HTTP_X_FORWARDED_FOR')
             if address:
@@ -88,3 +88,18 @@ class PostDetailtView(APIView):
             return Response({'post': serializer.data}, status=status.HTTP_200_OK)
         else: 
             return Response({'error':'Post doesnt exist'}, status=status.HTTP_404_NOT_FOUND)
+class SearchBlogView(APIView):
+    permission_classes = (permissions.AllowAny,)
+    def get(self, request, format=None):
+        # Filtrar
+        search_term = request.query_params.get('s')
+        matches = Post.postobjects.filter(
+            Q(title__icontains=search_term) |
+            Q(description__icontains=search_term) | 
+            Q(category__name__icontains=search_term)) 
+        
+        paginator = SmallSetPagination()
+        results = paginator.paginate_queryset(matches, request)
+
+        serializer = PostListSerializer(results, many=True)
+        return paginator.get_paginated_response({'filtered_posts': serializer.data})

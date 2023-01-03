@@ -11,6 +11,15 @@ def blog_thumbnail_directory(instance, filename):
 # Create your models here.
 # Modelo de la pagina admin babty
 class Post(models.Model):
+
+    class PostObjects(models.Manager):
+        def get_queryset(self):
+            return super().get_queryset().filter(status='published')
+
+    options = (
+        ('draft', 'Draft'),
+        ('published', 'Published')
+    )
     # Nuestro blog va a tener un titulo
     title =         models.CharField(max_length=255)
     slug =          models.SlugField(max_length=255, unique=True)
@@ -22,8 +31,11 @@ class Post(models.Model):
 
     published = models.DateTimeField(default=timezone.now)
     views = models.IntegerField(default=0, blank=True)
-
+    status = models.CharField(max_length=10, choices=options, default='draft')
     category = models.ForeignKey(Category, on_delete=models.PROTECT)
+
+    objects =   models.Manager()
+    postobjects = PostObjects()
 
     class Meta:
         ordering= ('-published',)
